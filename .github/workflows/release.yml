@@ -1,0 +1,24 @@
+on: [push]
+
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Zip release
+        run: zip -r io_scene_webaverse.zip io_scene_webaverse
+      - name: "Create release"
+        run: |
+          echo "done!"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{ github.ref }}
+          prerelease: false
+          title: Release ${{ github.ref }}
+          files: |
+            io_scene_webaverse.zip
